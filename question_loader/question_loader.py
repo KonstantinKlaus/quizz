@@ -1,5 +1,6 @@
-import urllib.request, json
+import urllib.request, json, logging
 
+logger = logging.getLogger("log")
 base_url = "https://opentdb.com/api.php?"
 
 def getQuestions(difficulty="",category="", number=10):
@@ -13,6 +14,6 @@ def getQuestions(difficulty="",category="", number=10):
 
     with urllib.request.urlopen(generated_url) as url:
         data = json.loads(url.read().decode())
-        print(data)
+        logger.info("Downloaded:" + str(data))
 
     return data
