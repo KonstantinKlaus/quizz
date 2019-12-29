@@ -1,3 +1,4 @@
+__author__ = "Konstantin Klaus"
 import urllib.request, json, logging
 
 logger = logging.getLogger("log")
