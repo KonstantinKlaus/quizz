@@ -18,7 +18,7 @@ class BuzzController:
         self.hid = hid.device()
 
         # Open up the device (use vendor_id and product_id)
-        self.hid.open(1356, 4)
+        self.hid.open(0x54c, 0x4)
 
         # Set the non blocking mode
         self.hid.set_nonblocking(1)
