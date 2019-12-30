@@ -2,8 +2,12 @@ __author__ = "Konstantin Klaus"
 
 from controller.enumerate import print_usb
 from translator import translator
-from question_loader import question_loader
+from questionloader import question_loader
 import logging
+import controller.buzzcontroller
+import time
+import thread
+from random import shuffle
 
 
 def main():
