@@ -5,6 +5,7 @@ from controller import buzzcontroller
 import time
 import threading
 from random import shuffle
+from gui.gui import Gui
 
 
 def main():
@@ -15,6 +16,11 @@ def main():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
 
+    gui = Gui()
+    gui.start_gui()
+
+
+def easy_quiz():
     import_questions = [
         {"question": "What is the capital of Australia", "answers": ["Canberra", "Sydney", "Hobart", "Melbourne"]},
         {"question": "What is the capital of Japan", "answers": ["Tokyo", "Hiroshima", "Osaka", "Kyoto"]},
