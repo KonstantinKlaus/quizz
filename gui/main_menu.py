@@ -1,9 +1,11 @@
 import tkinter as tk
 
-class MainMenu(tk.Frame):
+
+class MainMenu(tk.Canvas):
 
     def __init__(self, parent):
         super(MainMenu, self).__init__(parent)
 
-        self.label = tk.Label(self, text="Hello, World!")
-        self.label.pack(padx=20, pady=20)
+        self.create_rectangle(790, 100, 1190, 200, fill="blue")
+        self.create_rectangle(790, 500, 1190, 400, fill="red")
+
