@@ -1,8 +1,5 @@
 __author__ = "Konstantin Klaus"
 
-from controller.enumerate import print_usb
-from translator import translator
-from questionloader import question_loader
 import logging
 from controller import buzzcontroller
 import time
