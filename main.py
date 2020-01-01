@@ -33,11 +33,13 @@ def main():
     while running:
         # event handling, gets all event from the event queue
         for event in pygame.event.get():
-            # only do something if the event is of type QUIT
+
             if event.type == pygame.QUIT:
                 # change the value to False, to exit the main loop
                 running = False
 
+    pygame.quit()
+    quit()
 
 
 def easy_quiz():

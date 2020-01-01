@@ -3,7 +3,7 @@ import pygame
 from quiz.game import end_game
 
 
-class Quiz:
+class MainMenu:
 
     def __init__(self):
         self._running = True
