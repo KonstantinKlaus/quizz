@@ -42,4 +42,3 @@ class Game:
     def listen_buzz(self):
         while self.game_is_running:
             self.controller.read_and_print()
-            time.sleep(0.01)
