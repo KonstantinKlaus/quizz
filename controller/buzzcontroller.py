@@ -36,6 +36,10 @@ class BuzzController:
     def get_controller(self, controller_id):
         return self.controller[controller_id]
 
+    def controller_lights_off(self):
+        for controller in self.controller:
+            controller.light_off()
+
     def get_button_status(self):
         data = self.hid.read(5)
         button_state = [{}, {}, {}, {}]
