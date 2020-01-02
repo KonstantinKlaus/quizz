@@ -37,6 +37,7 @@ def main():
     game = Game(buzz)
     menu = Menu(game)
     menu.run_menu()
+    game.start_buzz_listener()
 
 
 def easy_quiz():
