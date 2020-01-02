@@ -6,6 +6,11 @@ from quiz.constants import *
 
 
 class Game:
+    # button states
+    button_state_old = [{"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
+                             {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
+                             {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
+                             {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
 
     def __init__(self, controller, language=DE):
         #looger
@@ -28,6 +33,7 @@ class Game:
 
         self.controller = controller
 
+
     def screen(self):
         return self.screen()
 
@@ -46,4 +52,16 @@ class Game:
     def listen_buzz(self):
         self.logger.debug("start thread")
         while self.game_is_running:
-            self.controller.read_and_print()
+            button_states = self.controller.get_button_status()
+            if button_states is not None:
+                for controller_id in range(0,3):
+                    for button in ["red", "blue", "orange", "green", "yellow"]:
+                        # check if False -> True
+                        if button_states[controller_id][button]:
+                            # check if state has hanged
+                            if button_states[controller_id][button] != self.button_state_old[controller_id][button]:
+                                event = pygame.event.Event(pygame.USEREVENT, str(controller_id) + ":" + button)
+                                pygame.event.post(event)
+
+                self.button_state_old = button_states
+
