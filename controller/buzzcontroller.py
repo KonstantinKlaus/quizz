@@ -81,6 +81,6 @@ class BuzzController:
                     return i
 
     def read_and_print(self):
-        d = self.hid.read(5, 1)
+        d = self.hid.read(5, 0.001)
         if d:
             print(d)
