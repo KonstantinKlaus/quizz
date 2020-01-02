@@ -34,7 +34,7 @@ def main():
     logger.debug("controller 1 light blinking")
 
     logger.debug("start pygame")
-    game = Game()
+    game = Game(buzz)
     menu = Menu(game)
     menu.run_menu()
 
