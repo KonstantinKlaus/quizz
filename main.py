@@ -22,14 +22,10 @@ def main():
     logger.addHandler(ch)
 
     # controller test
-    #buzz = buzzcontroller.BuzzController()
-    #controller = buzz.get_controller(0)
-    #controller.light_on()
-    #logger.debug("controller 1 light on")
-
-    #s = sched.scheduler(time.time, time.sleep)
-    #s.enter(1, 10, buzz.read_and_print, ())
-    #s.run()
+    buzz = buzzcontroller.BuzzController()
+    controller = buzz.get_controller(0)
+    controller.light_on()
+    logger.debug("controller 1 light on")
 
     logger.debug("start pygame")
     game = Game()
