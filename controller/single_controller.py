@@ -6,12 +6,18 @@ from controller.constants import *
 
 class SingleController:
     light_array = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
-    buttonState = {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}
+    button_state = {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}
 
     def __init__(self, controller_id, device):
         self.light = OFF
         self.controller_id = controller_id
         self.device = device
+
+    def get_button_state(self):
+        return self.button_state
+
+    def set_button_state(self, button_state):
+        self.button_state = button_state
 
     def light_off(self):
         self.light = OFF
