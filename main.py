@@ -21,8 +21,8 @@ def main():
 
     # controller test
     buzz = buzzcontroller.BuzzController()
-    controller = buzz.get_controller(0)
-    controller.light_on()
+    #controller = buzz.get_controller(0)
+    #controller.light_on()
 
     game = Game()
     menu = Menu(game)
