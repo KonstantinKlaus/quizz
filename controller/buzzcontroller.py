@@ -28,10 +28,10 @@ class BuzzController:
         # Clear the Buzz Controller LEDs
         self.hid.write(self.light_array)
 
-        controller1 = SingleController(0, hid)
-        controller2 = SingleController(1, hid)
-        controller3 = SingleController(2, hid)
-        controller4 = SingleController(3, hid)
+        controller1 = SingleController(0, self.hid)
+        controller2 = SingleController(1, self.hid)
+        controller3 = SingleController(2, self.hid)
+        controller4 = SingleController(3, self.hid)
         self.controller = [controller1, controller2, controller3, controller4]
 
     def get_controller(self, controller_id):
