@@ -8,12 +8,12 @@ from quiz.constants import *
 class Game:
     # button states
     button_state_old = [{"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
-                             {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
-                             {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
-                             {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
+                        {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
+                        {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
+                        {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
 
     def __init__(self, controller, language=DE):
-        #looger
+        # looger
         self.logger = logging.getLogger("log")
 
         self.game_is_running = True
@@ -32,7 +32,6 @@ class Game:
         self.screen = pygame.display.set_mode((400, 300))
 
         self.controller = controller
-
 
     def screen(self):
         return self.screen()
@@ -55,14 +54,14 @@ class Game:
             button_states = self.controller.get_button_status()
             self.logger.debug(button_states)
             if button_states is not None:
-                for controller_id in range(0,3):
+                for controller_id in range(0, 3):
                     for button in ["red", "blue", "orange", "green", "yellow"]:
                         # check if False -> True
                         if button_states[controller_id][button]:
                             # check if state has hanged
                             if button_states[controller_id][button] != self.button_state_old[controller_id][button]:
-                                event = pygame.event.Event(pygame.USEREVENT, str(controller_id) + ":" + button)
+                                event = pygame.event.Event(pygame.USEREVENT, controller=controller_id, button=button)
                                 pygame.event.post(event)
 
                 self.button_state_old = button_states
-
+            time.sleep(0.01)

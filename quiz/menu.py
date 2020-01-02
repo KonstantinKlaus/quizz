@@ -20,7 +20,7 @@ class Menu:
             if event.key == pygame.K_ESCAPE:
                 self.game.end_game()
         elif event.type == pygame.USEREVENT:
-            print(event.message)
+            print(event.button)
 
     def on_loop(self):
         pass
