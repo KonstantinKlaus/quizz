@@ -1,6 +1,8 @@
 import hid
 import time
 
+from controller.single_controller import SingleController
+
 
 class BuzzController:
     light_array = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
@@ -25,6 +27,15 @@ class BuzzController:
 
         # Clear the Buzz Controller LEDs
         self.hid.write(self.light_array)
+
+        controller1 = SingleController(0, hid)
+        controller2 = SingleController(1, hid)
+        controller3 = SingleController(2, hid)
+        controller4 = SingleController(3, hid)
+        self.controller = [controller1, controller2, controller3, controller4]
+
+    def get_controller(self, controller_id):
+        return self.controller[controller_id]
 
     def light_blink(self, controller):
         blink_lights_off = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
