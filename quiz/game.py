@@ -20,7 +20,7 @@ class Game:
         pygame.display.set_caption("minimal program")
 
         # create a surface on screen that has the size of 240 x 180
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((400, 300))
 
         self.controller = controller
 
