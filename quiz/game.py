@@ -9,9 +9,7 @@ class Game:
     def __init__(self, controller, language=DE):
         self.game_is_running = True
 
-        self.listener_thread = threading.Thread(target=self.listen_buzz(),
-                                                args=(),
-                                                )
+        self.listener_thread = None
         self.language = language
 
         # initialize the pygame module
@@ -36,6 +34,9 @@ class Game:
         quit()
 
     def start_buzz_listener(self):
+        self.listener_thread = threading.Thread(target=self.listen_buzz(),
+                                                args=(),
+                                                )
         self.listener_thread.start()
 
     def listen_buzz(self):
