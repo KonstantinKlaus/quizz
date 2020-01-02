@@ -34,7 +34,7 @@ class Game:
         quit()
 
     def start_buzz_listener(self):
-        self.listener_thread = threading.Thread(target=self.listen_buzz(),
+        self.listener_thread = threading.Thread(target=self.listen_buzz,
                                                 args=(),
                                                 )
         self.listener_thread.start()
