@@ -55,7 +55,7 @@ class Menu:
         pygame.draw.rect(self.screen, YELLOW, rec4)
 
         # Button Text
-        font = pygame.font.Font('freesansbold.ttf', 80)
+        font = pygame.font.Font('freesansbold.ttf', int(0.075*height))
 
         text1 = font.render("Spiel Starten", True, BLACK)
         text2 = font.render("Frage", True, BLACK)
