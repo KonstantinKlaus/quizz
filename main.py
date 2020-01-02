@@ -24,7 +24,7 @@ def main():
     controller = buzz.get_controller(0)
     controller.light_on()
     logger.debug("controller 1 light on")
-    threading.Thread(target=buzz.read_and_print()
+    threading.Thread(target=buzz.read_and_print(),
                      ).start()
 
     game = Game()
