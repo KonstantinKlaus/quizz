@@ -110,3 +110,9 @@ class BuzzController:
     def light_set(self, controller, status):
         self.light_array[controller + 2] = 0xFF if status else 0x00
         self.hid.write(self.light_array)
+
+    def read_and_print(self):
+        while True:
+            d = self.hid.read(5)
+            if d:
+                print(d)
