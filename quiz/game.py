@@ -30,7 +30,7 @@ class Game:
         return self.screen()
 
     def end_game(self):
-        self.game_is_running
+        self.game_is_running = False
         self.controller.controller_lights_off()
         pygame.quit()
         quit()
