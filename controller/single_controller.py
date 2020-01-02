@@ -1,3 +1,6 @@
+import threading
+import time
+
 from controller.constants import *
 
 
@@ -24,3 +27,17 @@ class SingleController:
 
     def light_blinking(self):
         self.light = BLINKING
+
+        threading.Thread(target=self.blink, ).start()
+
+    def blink(self):
+        blink = False
+        while self.light == BLINKING:
+            if blink:
+                self.light_array[self.controller_id + 2] = 0x00
+                self.device.write(self.light_array)
+            else:
+                self.light_array[self.controller_id + 2] = 0x00
+                self.device.write(self.light_array)
+            blink = not blink
+            time.sleep(0.5)

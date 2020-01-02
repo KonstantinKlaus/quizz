@@ -25,7 +25,13 @@ def main():
     buzz = buzzcontroller.BuzzController()
     controller = buzz.get_controller(0)
     controller.light_on()
+
     logger.debug("controller 1 light on")
+
+    controller = buzz.get_controller(1)
+    controller.light_blinking()
+
+    logger.debug("controller 1 light blinking")
 
     logger.debug("start pygame")
     game = Game()
