@@ -7,12 +7,12 @@ from quiz.constants import DE, EN
 class Game:
 
     def __init__(self, controller, language=DE):
+        self.game_is_running = True
+
         self.listener_thread = threading.Thread(target=self.listen_buzz(),
                                                 args=(),
                                                 )
         self.language = language
-
-        self.game_is_running = True
 
         # initialize the pygame module
         pygame.init()
