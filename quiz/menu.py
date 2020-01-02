@@ -1,10 +1,8 @@
-from quiz.constants import *
-
 __author__ = "Konstantin Klaus"
+
+from quiz.constants import *
 import logging
 import pygame
-
-from quiz.game import end_game
 
 
 class Menu:
@@ -36,7 +34,7 @@ class Menu:
                 self.on_event(event)
             self.on_loop()
             self.on_render()
-        end_game()
+        self.game.end_game()
 
     def draw_main_menu(self):
         self.screen.fill(WHITE)
