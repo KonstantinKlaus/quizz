@@ -116,3 +116,4 @@ class BuzzController:
             d = self.hid.read(5)
             if d:
                 print(d)
+            time.sleep(0.5)
