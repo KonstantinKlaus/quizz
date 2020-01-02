@@ -35,9 +35,10 @@ def main():
 
     logger.debug("start pygame")
     game = Game(buzz)
+    game.start_buzz_listener()
     menu = Menu(game)
     menu.run_menu()
-    game.start_buzz_listener()
+
 
 
 def easy_quiz():
