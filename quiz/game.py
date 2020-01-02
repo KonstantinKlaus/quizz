@@ -52,7 +52,6 @@ class Game:
         self.logger.debug("start thread")
         while self.game_is_running:
             button_states = self.controller.get_button_status()
-            self.logger.debug(button_states)
             if button_states is not None:
                 for controller_id in range(0, 3):
                     for button in ["red", "blue", "orange", "green", "yellow"]:
