@@ -112,8 +112,6 @@ class BuzzController:
         self.hid.write(self.light_array)
 
     def read_and_print(self):
-        while True:
-            d = self.hid.read(5)
-            if d:
-                print(d)
-            time.sleep(0.5)
+        d = self.hid.read(5)
+        if d:
+            print(d)

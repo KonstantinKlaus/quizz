@@ -1,3 +1,5 @@
+import sched
+
 from quiz.game import Game
 from quiz.menu import Menu
 
@@ -24,8 +26,11 @@ def main():
     controller = buzz.get_controller(0)
     controller.light_on()
     logger.debug("controller 1 light on")
-    threading.Thread(target=buzz.read_and_print(),
-                     ).start()
+
+    s = sched.scheduler(time.time, time.sleep())
+    s.enter(1, 10, buzz.read_and_print, ())
+    s.run()
+
     logger.debug("thread running")
     game = Game()
     menu = Menu(game)
