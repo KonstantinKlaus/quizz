@@ -26,7 +26,7 @@ def main():
     logger.debug("controller 1 light on")
     threading.Thread(target=buzz.read_and_print(),
                      ).start()
-
+    logger.debug("thread running")
     game = Game()
     menu = Menu(game)
     menu.run_menu()
