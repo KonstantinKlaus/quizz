@@ -19,6 +19,8 @@ def main():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
 
+    buzz = buzzcontroller.BuzzController()
+
     game = Game()
     menu = Menu(game)
     menu.run_menu()
