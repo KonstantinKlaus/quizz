@@ -1,3 +1,4 @@
+import logging
 import threading
 import time
 import pygame
@@ -7,6 +8,9 @@ from quiz.constants import *
 class Game:
 
     def __init__(self, controller, language=DE):
+        #looger
+        self.logger = logging.getLogger("log")
+
         self.game_is_running = True
 
         self.listener_thread = None
@@ -40,5 +44,6 @@ class Game:
         self.listener_thread.start()
 
     def listen_buzz(self):
+        self.logger.debug("start thread")
         while self.game_is_running:
             self.controller.read_and_print()
