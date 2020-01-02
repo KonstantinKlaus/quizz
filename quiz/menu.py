@@ -17,10 +17,10 @@ class Menu:
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
-            end_game()
+            self.game.end_game()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                end_game()
+                self.game.end_game()
 
     def on_loop(self):
         pass

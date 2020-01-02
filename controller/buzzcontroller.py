@@ -44,6 +44,10 @@ class BuzzController:
     def get_controller(self, controller_id):
         return self.controller[controller_id]
 
+    def controller_lights_off(self):
+        for controller in self.controller:
+            controller.light_off()
+
     def light_blink(self, controller):
         blink_lights_off = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 

@@ -37,7 +37,7 @@ class SingleController:
                 self.light_array[self.controller_id + 2] = 0x00
                 self.device.write(self.light_array)
             else:
-                self.light_array[self.controller_id + 2] = 0x00
+                self.light_array[self.controller_id + 2] = 0xFF
                 self.device.write(self.light_array)
             blink = not blink
             time.sleep(0.5)
