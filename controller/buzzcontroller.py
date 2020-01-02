@@ -67,7 +67,8 @@ class BuzzController:
             button_state[3]["green"] = ((data[4] & 0x02) != 0)  # green
             button_state[3]["orange"] = ((data[4] & 0x04) != 0)  # orange
             button_state[3]["blue"] = ((data[4] & 0x08) != 0)  # blue
-        return button_state
+
+            return button_state
 
     def get_button_pressed(self, controller):
         buttons = self.get_button_status()
