@@ -1,5 +1,6 @@
 import hid
 import time
+import logging
 
 from controller.single_controller import SingleController
 
@@ -15,6 +16,8 @@ class BuzzController:
     ]
 
     def __init__(self):
+        self.logger = logging.getLogger("log")
+
         # instantiate the device class
         self.blink_lights_on = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
         self.hid = hid.device()
@@ -22,17 +25,21 @@ class BuzzController:
         # Open up the device (use vendor_id and product_id)
         self.hid.open(0x54c, 0x2)
 
+        self.logger.debug("Connection successful")
+
         # Set the non blocking mode
         self.hid.set_nonblocking(1)
 
         # Clear the Buzz Controller LEDs
         self.hid.write(self.light_array)
+        self.logger.debug("lights off")
 
         controller1 = SingleController(0, self.hid)
         controller2 = SingleController(1, self.hid)
         controller3 = SingleController(2, self.hid)
         controller4 = SingleController(3, self.hid)
         self.controller = [controller1, controller2, controller3, controller4]
+        self.logger.debug("controller classes instantiated")
 
     def get_controller(self, controller_id):
         return self.controller[controller_id]

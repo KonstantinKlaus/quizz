@@ -14,7 +14,7 @@ import pygame
 def main():
     # logger
     logger = logging.getLogger("log")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
