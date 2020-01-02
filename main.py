@@ -27,7 +27,7 @@ def main():
     controller.light_on()
     logger.debug("controller 1 light on")
 
-    s = sched.scheduler(time.time, time.sleep())
+    s = sched.scheduler(time.time, time.sleep)
     s.enter(1, 10, buzz.read_and_print, ())
     s.run()
 
