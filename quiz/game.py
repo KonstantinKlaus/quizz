@@ -13,7 +13,7 @@ class Game:
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
 
     def __init__(self, controller, language=DE):
-        # looger
+        # logger
         self.logger = logging.getLogger("log")
 
         self.game_is_running = True
@@ -32,6 +32,12 @@ class Game:
         self.screen = pygame.display.set_mode((400, 300))
 
         self.controller = controller
+
+    def set_language(self, language):
+        if language not in [DE, EN]:
+            self.language = EN
+        else:
+            self.language = language
 
     def screen(self):
         return self.screen()
@@ -59,8 +65,8 @@ class Game:
                         if button_states[controller_id][button]:
                             # check if state has hanged
                             if button_states[controller_id][button] != self.button_state_old[controller_id][button]:
-                                event = pygame.event.Event(pygame.USEREVENT, controller=controller_id, button=button)
+                                event = pygame.event.Event(BUZZEVENT, controller=controller_id, button=button)
                                 pygame.event.post(event)
 
                 self.button_state_old = button_states
-            time.sleep(0.01)
+            time.sleep(0.05)
