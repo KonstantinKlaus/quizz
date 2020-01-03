@@ -11,6 +11,7 @@ OPTIONS = 3
 
 
 class Menu:
+    strings = {EN: {"quit": "Quit", "options": "Options", "questions": "Questions", "start game": "Start Game"}, DE: {"quit": "Beenden", "options": "Optionen", "questions": "Fragen", "start game": "Spiel starten"}}
 
     def __init__(self, game):
         self.screen = pygame.display.get_surface()
@@ -76,10 +77,10 @@ class Menu:
         # Button Text
         font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
 
-        text1 = font.render("Spiel Starten", True, BLACK)
-        text2 = font.render("Frage", True, BLACK)
-        text3 = font.render("Einstellungen", True, BLACK)
-        text4 = font.render("Beenden", True, BLACK)
+        text1 = font.render(self.strings[self.game.language]["start game"], True, BLACK)
+        text2 = font.render(self.strings[self.game.language]["questions"], True, BLACK)
+        text3 = font.render(self.strings[self.game.language]["options"], True, BLACK)
+        text4 = font.render(self.strings[self.game.language]["quit"], True, BLACK)
 
         self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.275 * height - text1.get_height() // 2))
         self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.475 * height - text2.get_height() // 2))
