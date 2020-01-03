@@ -50,8 +50,6 @@ class Menu:
         self.draw_language_selection()
         self.menu = LANGUAGE_SELECTION
 
-        self.draw_main_menu()
-
         while self.menu_running:
             for event in pygame.event.get():
                 self.on_event(event)
