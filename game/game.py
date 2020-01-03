@@ -1,7 +1,7 @@
 import logging
 import threading
 import time
-from quiz.constants import *
+from game.constants import *
 
 
 class Game:

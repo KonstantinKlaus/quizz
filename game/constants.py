@@ -9,6 +9,7 @@ BLACK = (0, 0, 0)
 ORANGE = (255, 128, 0)
 GREEN = (0, 102, 0)
 YELLOW = (255, 255, 0)
+RED = (204, 0, 0)
 
 BUZZEVENT = pygame.USEREVENT + 1
 

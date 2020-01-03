@@ -1,8 +1,8 @@
 import sched
 
 from questiondatabase.question_database import QuestionDatabase
-from quiz.game import Game
-from quiz.menu import Menu
+from game.game import Game
+from game.menu import Menu
 
 __author__ = "Konstantin Klaus"
 
