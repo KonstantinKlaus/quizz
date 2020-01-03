@@ -13,9 +13,9 @@ OPTIONS = 3
 class Menu:
     strings = {
         EN: {"quit": "Quit", "options": "Options", "questions": "Questions", "start game": "Start Game",
-             "game_mode_1": "Klassisch", "back": "Zurück"},
+             "game_mode_1": "Classic", "back": "Back"},
         DE: {"quit": "Beenden", "options": "Optionen", "questions": "Fragen", "start game": "Spiel starten",
-             "game_mode_1": "Classic", "back": "Back"}}
+             "game_mode_1": "Klassisch", "back": "Zurück"}}
 
     def __init__(self, game):
         self.screen = pygame.display.get_surface()
@@ -52,6 +52,12 @@ class Menu:
                     self.menu = MAIN_MENU
                     self.draw_main_menu()
         # game mode selection
+        elif self.menu == GAME_MODE_SELECTION:
+            if event.type == BUZZEVENT:
+                if event.button == "yellow":
+                    self.menu = MAIN_MENU
+                    self.draw_main_menu()
+
         elif self.menu == GAME_MODE_SELECTION:
             if event.type == BUZZEVENT:
                 if event.button == "yellow":
