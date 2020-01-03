@@ -1,5 +1,6 @@
 import sched
 
+from questiondatabase.question_database import QuestionDatabase
 from quiz.game import Game
 from quiz.menu import Menu
 
@@ -21,17 +22,15 @@ def main():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
 
-    # controller test
-    buzz = buzzcontroller.BuzzController()
-    controller = buzz.get_controller(0)
-    controller.light_on()
+    q_dbase = QuestionDatabase()
+    q_dbase.save_data()
 
-    logger.debug("controller 1 light on")
-
-    controller = buzz.get_controller(1)
-    controller.light_blinking()
-
-    logger.debug("controller 1 light blinking")
+    # connect to controller
+    try:
+        buzz = buzzcontroller.BuzzController()
+    except AttributeError:
+        logger.error("Error connecting to Buzz Controller")
+        quit()
 
     logger.debug("start pygame")
     game = Game(buzz)
