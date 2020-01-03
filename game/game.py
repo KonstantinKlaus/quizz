@@ -44,6 +44,7 @@ class Game:
     def end_game(self):
         self.game_is_running = False
         self.controller.controller_lights_off()
+        self.logger.info("End program")
         pygame.quit()
         quit()
 

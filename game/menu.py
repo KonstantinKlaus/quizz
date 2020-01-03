@@ -36,8 +36,7 @@ class Menu:
             if event.type == BUZZEVENT:
                 if event.button == "yellow":
                     self.game.end_game()
-            elif event.type == BUZZEVENT:
-                if event.button == "blue":
+                elif event.button == "blue":
                     self.menu = GAME_MODE_SELECTION
                     self.draw_game_mode_selection()
 
