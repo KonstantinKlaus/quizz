@@ -1,3 +1,5 @@
+import sched
+
 from quiz.game import Game
 from quiz.menu import Menu
 
@@ -14,16 +16,29 @@ import pygame
 def main():
     # logger
     logger = logging.getLogger("log")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
 
+    # controller test
     buzz = buzzcontroller.BuzzController()
+    controller = buzz.get_controller(0)
+    controller.light_on()
 
-    game = Game()
+    logger.debug("controller 1 light on")
+
+    controller = buzz.get_controller(1)
+    controller.light_blinking()
+
+    logger.debug("controller 1 light blinking")
+
+    logger.debug("start pygame")
+    game = Game(buzz)
+    game.start_buzz_listener()
     menu = Menu(game)
     menu.run_menu()
+
 
 
 def easy_quiz():

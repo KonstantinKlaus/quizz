@@ -1,0 +1,3 @@
+OFF = 0
+ON = 1
+BLINKING = 2

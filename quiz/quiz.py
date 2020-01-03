@@ -1,6 +1,5 @@
 import pygame
 
-from quiz.game import end_game
 
 
 class Quiz:
