@@ -32,17 +32,53 @@ ENTERTAINMENT_JAPANESE_ANIME_MANGA = 31
 ENTERTAINMENT_CARTOON_ANIMATIONS = 32
 
 
-def get_questions(difficulty="", category="", number=10):
-    amount = "amount=" + str(number)
-    generated_url = base_url + amount
-    if category != "":
-        generated_url = generated_url + "&" + "category=" + category
+def cut_question_number(category, number):
+    if category == 30:
+        if number > 15:
+            number = 15
 
-    if difficulty != "":
-        generated_url = generated_url + "&" + "difficulty=" + difficulty
+    elif category == 29:
+        if number > 35:
+            number = 35
 
+    elif category == 27:
+        if number > 35:
+            number = 35
+
+    elif category == 26:
+        if number > 40:
+            number = 40
+
+    elif category == 25:
+        if number > 20:
+            number = 20
+
+    elif category == 24:
+        if number > 30:
+            number = 30
+
+    elif category == 20:
+        if number > 30:
+            number = 30
+
+    elif category == 19:
+        if number > 20:
+            number = 20
+
+    elif category == 13:
+        if number > 15:
+            number = 15
+
+    return number
+
+
+def get_questions(difficulty="", category=0, number=10):
+    number = cut_question_number(category, number)
+
+    generated_url = "%samount=%d&category=%d&difficulty=%s&type=multiple" % (base_url, number, category, difficulty)
+    print(generated_url)
     with urllib.request.urlopen(generated_url) as url:
         data = json.loads(url.read().decode())
-        logger.info("Downloaded:" + str(data) + "&type=multiple")
+        logger.info("Downloaded:" + str(data))
 
-    return data
+    return data["results"]
