@@ -59,11 +59,13 @@ class Quiz:
         # Button Text
         font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
 
+        text0 = font.render(question, True, BLACK)
         text1 = font.render(answer1, True, BLACK)
         text2 = font.render(answer2, True, BLACK)
         text3 = font.render(answer3, True, BLACK)
         text4 = font.render(answer4, True, BLACK)
 
+        self.screen.blit(text0, (0.5 * width - text1.get_width() // 2, 0.1 * height - text1.get_height() // 2))
         self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.275 * height - text1.get_height() // 2))
         self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.475 * height - text2.get_height() // 2))
         self.screen.blit(text3, (0.5 * width - text3.get_width() // 2, 0.675 * height - text3.get_height() // 2))
