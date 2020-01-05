@@ -1,8 +1,10 @@
 import sched
 
-from questiondatabase.question_database import QuestionDatabase
+from questiondatabase.question_database import QuestionDatabase, prepare_question
 from game.game import Game
 from game.menu import Menu
+from questionloader import question_loader
+from translator import translator
 
 __author__ = "Konstantin Klaus"
 
@@ -22,10 +24,10 @@ def main():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
 
-    q_dbase = QuestionDatabase()
-    q_dbase.load_data()
-    if q_dbase.new_data:
-        q_dbase.save_data()
+    question_db = QuestionDatabase()
+    question_db.load_data()
+    if question_db.new_data:
+        question_db.save_data()
 
     # connect to controller
     try:

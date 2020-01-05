@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 from game.constants import *
+from questiondatabase.question_database import QuestionDatabase
 
 
 class Game:
@@ -10,6 +11,8 @@ class Game:
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
+
+    question_db = QuestionDatabase()
 
     def __init__(self, controller, language=DE):
         # logger
@@ -42,6 +45,10 @@ class Game:
         return self.screen()
 
     def end_game(self):
+        # save new data
+        if self.question_db.new_data:
+            self.question_db.save_data()
+
         self.game_is_running = False
         self.controller.controller_lights_off()
         self.logger.info("End program")

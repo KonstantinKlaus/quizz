@@ -1,4 +1,6 @@
 __author__ = "Konstantin Klaus"
+
+import html
 import json
 import logging
 import urllib.request
@@ -76,9 +78,12 @@ def get_questions(difficulty="", category=0, number=10):
     number = cut_question_number(category, number)
 
     generated_url = "%samount=%d&category=%d&difficulty=%s&type=multiple" % (base_url, number, category, difficulty)
-    print(generated_url)
     with urllib.request.urlopen(generated_url) as url:
-        data = json.loads(url.read().decode())
-        logger.info("Downloaded:" + str(data))
+        string = url.read().decode('utf-8')
+        data = json.loads(string)
+        if data["response_code"] == 0:
+            logger.info("Download successful, url: %s" % generated_url)
+        else:
+            logger.info("Download not successful, url: %s" % generated_url)
 
     return data["results"]
