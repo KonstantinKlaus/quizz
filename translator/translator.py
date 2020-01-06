@@ -5,7 +5,7 @@ from translate import Translator
 
 logger = logging.getLogger("log")
 
-translator = Translator(to_lang="de", from_lang="en")
+translator = Translator(provider="mymemory", to_lang="de", from_lang="en", email="buzzquiz@protonmail.com")
 
 
 def translate_question(question):
