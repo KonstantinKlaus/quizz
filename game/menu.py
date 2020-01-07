@@ -23,6 +23,7 @@ class Menu:
         self.game = game
         self.logger = logging.getLogger("log")
         self.menu = None
+        self.clock = pygame.time.Clock()
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -79,6 +80,7 @@ class Menu:
                 self.on_event(event)
             self.on_loop()
             self.on_render()
+            self.clock.tick(30)
         self.game.end_game()
 
     def draw_main_menu(self):

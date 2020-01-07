@@ -1,5 +1,6 @@
 import sched
 
+from game.loading_screen import LoadingScreen
 from questiondatabase.question_database import QuestionDatabase, prepare_question
 from game.game import Game
 from game.menu import Menu
@@ -24,12 +25,8 @@ def main():
     ch.setLevel(logging.DEBUG)
     logger.addHandler(ch)
 
-    question_db = QuestionDatabase()
-    question_db.load_data()
-    if question_db.new_data:
-        question_db.save_data()
-
     # connect to controller
+    buzz = None
     try:
         buzz = buzzcontroller.BuzzController()
     except AttributeError:
@@ -38,6 +35,10 @@ def main():
 
     logger.debug("start pygame")
     game = Game(buzz)
+    laoding_screen = LoadingScreen(game)
+    laoding_screen.loading_screen()
+    game.question_db.load_data()
+    laoding_screen.exit()
     game.start_buzz_listener()
     menu = Menu(game)
     menu.run_menu()
