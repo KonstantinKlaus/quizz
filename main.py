@@ -27,6 +27,11 @@ def main():
 
     # connect to controller
     buzz = None
+    game = Game(buzz)
+    laoding_screen = LoadingScreen(game)
+    laoding_screen.loading_screen()
+    time.sleep(10)
+    laoding_screen.exit()
     try:
         buzz = buzzcontroller.BuzzController()
     except AttributeError:

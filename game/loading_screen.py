@@ -42,22 +42,23 @@ class LoadingScreen:
         self.angle %= 360
 
     def on_render(self):
-        self.screen.fill(WHITE)
-
         (width, height) = self.screen.get_size()
 
-        font = pygame.font.Font('freesansbold.ttf', int(0.15 * height))
-
-        q = font.render("Q", True, BLACK)
-
-        # create a new, rotated Surface
-        surf = pygame.transform.rotate(q, self.angle)
-        # and blit it to the screen
-        self.screen.blit(surf, (640, 480))
+        # font = pygame.font.Font('freesansbold.ttf', int(0.15 * height))
+        #
+        # q = font.render("Q", True, BLACK)
+        #
+        # # create a new, rotated Surface
+        # rot_q = pygame.transform.rotate(q, self.angle)
+        # # and blit it to the screen
+        # self.screen.blit(rot_q, (0.5 * width - rot_q.get_width() // 2, 0.5 * height - rot_q.get_height() // 2))
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
+            self.loading = False
             self.game.end_game()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
+                self.loading = False
                 self.game.end_game()
+
