@@ -17,6 +17,11 @@ from random import shuffle
 import pygame
 
 
+def dumb_task(seconds):
+    time.sleep(seconds)
+    print("finished waiting")
+
+
 def main():
     # logger
     logger = logging.getLogger("log")
@@ -29,9 +34,7 @@ def main():
     buzz = None
     game = Game(buzz)
     laoding_screen = LoadingScreen(game)
-    laoding_screen.loading_screen()
-    time.sleep(10)
-    laoding_screen.exit()
+    laoding_screen.loading(dumb_task, (1,), "Loading Questions ... please wait")
     try:
         buzz = buzzcontroller.BuzzController()
     except AttributeError:
