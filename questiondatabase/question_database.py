@@ -3,6 +3,8 @@ import random
 from pathlib import Path
 import logging
 import html
+
+from gamemodes.question import Question
 from questionloader import question_loader
 from translator import translator
 
@@ -67,13 +69,13 @@ class QuestionDatabase:
             self.logger.debug("file writing successful")
             self.new_data = False
 
-    def get_questions(self, number: 1, category: None):
+    def get_questions(self, number=1, category=None):
         result = []
         if category is None:
             keys = list(self.questions.keys())
             for i in range(1, number):
                 key, value = random.choice(keys)
-                result.append(value)
+                result.append(Question(value))
                 keys.remove(key)
         return result
 
