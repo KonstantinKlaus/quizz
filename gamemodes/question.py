@@ -14,11 +14,14 @@ class Question:
         self.possible_answers.append(self.correct_answer)
         random.shuffle(self.possible_answers)
 
-    def get_possible_answers_shuffeled(self):
+    """
+    get possible answers, they are shuffled
+    """
+    def get_possible_answers(self) -> [str]:
         return self.possible_answers
 
-    def check(self, answer):
-        if type(answer) == int:
+    def check(self, answer) -> bool:
+        if type(answer) is int:
             if self.possible_answers[answer] == self.correct_answer:
                 return True
             else:
@@ -33,5 +36,5 @@ class Question:
 example_question = {"question": "Da?", "question_de": "Na?", "correct_answer": "Da!",
                     "incorrect_answers": ["Wa", "Ra", "La"]}
 question = Question(example_question)
-answers = question.get_possible_answers_shuffeled()
+answers = question.get_possible_answers()
 print(answers)

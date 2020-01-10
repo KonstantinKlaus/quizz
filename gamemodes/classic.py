@@ -1,6 +1,9 @@
-from gamemodes.game_mode import GameMode
-
 __author__ = "Konstantin Klaus"
+
+import pygame
+from gamemodes.game_mode import GameMode
+from game.constants import *
+
 
 class ClassicGame(GameMode):
 
@@ -38,11 +41,15 @@ class ClassicGame(GameMode):
         # Button Text
         font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
 
-        text0 = font.render(question, True, BLACK)
-        text1 = font.render(answer1, True, BLACK)
-        text2 = font.render(answer2, True, BLACK)
-        text3 = font.render(answer3, True, BLACK)
-        text4 = font.render(answer4, True, BLACK)
+        answers = self.current_question().possible_answers
+        if self.game.language == DE:
+            text0 = font.render(self.current_question().question_de, True, BLACK)
+        else:
+            text0 = font.render(self.current_question().question_en, True, BLACK)
+        text1 = font.render(answers[0], True, BLACK)
+        text2 = font.render(answers[1], True, BLACK)
+        text3 = font.render(answers[2], True, BLACK)
+        text4 = font.render(answers[3], True, BLACK)
 
         self.screen.blit(text0, (0.5 * width - text1.get_width() // 2, 0.1 * height - text1.get_height() // 2))
         self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.275 * height - text1.get_height() // 2))
@@ -51,7 +58,6 @@ class ClassicGame(GameMode):
         self.screen.blit(text4, (0.5 * width - text4.get_width() // 2, 0.875 * height - text4.get_height() // 2))
 
         pygame.display.update()
-
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
