@@ -1,11 +1,14 @@
 __author__ = "Konstantin Klaus"
 
-import pygame
-from gamemodes.game_mode import GameMode
 from game.constants import *
+from gamemodes.game_mode import *
 
 
 class ClassicGame(GameMode):
+
+    ANSWER_TIME = 10000
+
+    player_answers = [None, None, None, None]
 
     def load_questions(self):
         self.questions = self.question_db.get_questions(10)
@@ -65,3 +68,10 @@ class ClassicGame(GameMode):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.game.end_game()
+        elif event.type == BUZZEVENT:
+            if event.button != "red":
+                controller = event.controller
+                button = button_value(event.button)
+                self.player_answers[controller] = button
+        elif event.type == TIMEOUT_EVENT:
+            pass

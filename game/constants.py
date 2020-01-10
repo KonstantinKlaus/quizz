@@ -12,4 +12,5 @@ YELLOW = (255, 255, 0)
 RED = (204, 0, 0)
 
 BUZZEVENT = pygame.USEREVENT + 1
+TIMEOUT_EVENT = pygame.USEREVENT + 2
 
