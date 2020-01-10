@@ -30,6 +30,8 @@ class GameMode:
 
     game_running = False
 
+    show_correct_answer = False
+
     def __init__(self, game, question_db):
         self.logger = logging.getLogger("log")
         self.game = game

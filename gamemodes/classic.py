@@ -7,6 +7,7 @@ from gamemodes.game_mode import *
 class ClassicGame(GameMode):
 
     ANSWER_TIME = 10000
+    SOLUTION_TIME = 2000
 
     player_answers = [None, None, None, None]
 
@@ -60,6 +61,9 @@ class ClassicGame(GameMode):
         self.screen.blit(text3, (0.5 * width - text3.get_width() // 2, 0.675 * height - text3.get_height() // 2))
         self.screen.blit(text4, (0.5 * width - text4.get_width() // 2, 0.875 * height - text4.get_height() // 2))
 
+        if self.show_correct_answer:
+            pass
+
         pygame.display.update()
 
     def on_event(self, event):
@@ -74,4 +78,18 @@ class ClassicGame(GameMode):
                 button = button_value(event.button)
                 self.player_answers[controller] = button
         elif event.type == TIMEOUT_EVENT:
-            pass
+            if self.show_correct_answer:
+                if self.number_questions_left() == 0:
+                    # end game mode
+                    self.game_running = False
+                else:
+                    # next question
+                    self.next_question()
+                    self.player_answers = [None, None, None, None]
+                    pygame.time.set_timer(TIMEOUT_EVENT, self.ANSWER_TIME)
+                    self.show_correct_answer = False
+            else:
+                # show correct answers
+
+                pygame.time.set_timer(TIMEOUT_EVENT, self.SOLUTION_TIME)
+                self.show_correct_answer = True
