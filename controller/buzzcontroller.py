@@ -40,6 +40,14 @@ class BuzzController:
         for controller in self.controller:
             controller.light_off()
 
+    def controller_lights_on(self):
+        for controller in self.controller:
+            controller.light_on()
+
+    def controller_lights_blink(self):
+        for controller in self.controller:
+            controller.light_blinking()
+
     def get_button_status(self):
         data = self.hid.read(5)
         button_state = [{}, {}, {}, {}]

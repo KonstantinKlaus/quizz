@@ -1,6 +1,8 @@
 import logging
 import threading
 import time
+
+from controller.buzzcontroller import BuzzController
 from game.constants import *
 from questiondatabase.question_database import QuestionDatabase
 
@@ -13,8 +15,9 @@ class Game:
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
 
     question_db = QuestionDatabase()
+    controller: BuzzController
 
-    def __init__(self, controller, language=DE):
+    def __init__(self, controller: BuzzController, language=DE):
         # logger
         self.logger = logging.getLogger("log")
 

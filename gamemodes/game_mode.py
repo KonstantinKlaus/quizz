@@ -54,4 +54,4 @@ class GameMode:
         return self.questions[self.position]
 
     def number_questions_left(self):
-        return len(self.questions) - self.position
+        return (len(self.questions) - 1) - self.position

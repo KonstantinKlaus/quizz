@@ -34,7 +34,6 @@ class ClassicGame(GameMode):
 
         (width, height) = self.screen.get_size()
 
-
         # font
         font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
 
@@ -95,6 +94,9 @@ class ClassicGame(GameMode):
             # if correct answer is displayed
             if self.show_correct_answer:
                 if event.button == "red":
+                    # stop blinking
+                    self.game.controller.controller_lights_off()
+
                     # if now questions are left -> end game mode
                     if self.number_questions_left() == 0:
                         # end game mode
@@ -119,6 +121,9 @@ class ClassicGame(GameMode):
             if self.seconds_left == 0:
                 # show correct answers
                 self.show_correct_answer = True
+
+                # buttons blinking
+                self.game.controller.controller_lights_blink()
 
                 # give points to players
 
