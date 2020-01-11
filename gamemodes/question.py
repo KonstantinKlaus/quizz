@@ -10,7 +10,7 @@ class Question:
         self.correct_answer = question_dic["correct_answer"]
 
         # shuffle
-        self.possible_answers = self.wrong_answers.copy()
+        self.possible_answers = list(self.wrong_answers.copy())
         self.possible_answers.append(self.correct_answer)
         random.shuffle(self.possible_answers)
 
@@ -19,6 +19,9 @@ class Question:
     """
     def get_possible_answers(self) -> [str]:
         return self.possible_answers
+
+    def index_correct_answer(self) -> [str]:
+        return self.possible_answers.index(self.correct_answer)
 
     def check(self, answer) -> bool:
         if type(answer) is int:

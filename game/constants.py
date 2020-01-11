@@ -11,6 +11,19 @@ GREEN = (0, 102, 0)
 YELLOW = (255, 255, 0)
 RED = (204, 0, 0)
 
+
+def get_color_by_index(index: int):
+    if index == 0:
+        return BLUE
+    elif index == 1:
+        return ORANGE
+    elif index == 2:
+        return GREEN
+    elif index == 3:
+        return YELLOW
+    else:
+        return RED
+
+
 BUZZEVENT = pygame.USEREVENT + 1
 TIME_EVENT = pygame.USEREVENT + 2
-
