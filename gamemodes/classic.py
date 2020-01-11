@@ -39,11 +39,30 @@ class ClassicGame(GameMode):
 
         # render answer
         if self.game.language == DE:
-            text0 = font.render(self.current_question().question_de, True, BLACK)
+            question = self.current_question().question_de
         else:
-            text0 = font.render(self.current_question().question_en, True, BLACK)
+            question = self.current_question().question_en
 
-        self.screen.blit(text0, (0.5 * width - text0.get_width() // 2, 0.1 * height - text0.get_height() // 2))
+        # check if answer is too long for one line
+        if len(question > 40):
+            # two lines
+            part_1 = question[0:40]
+            part_2 = question[41:]
+            part_1_rendered = font.render(part_1, True, BLACK)
+            part_2_rendered = font.render(part_2, True, BLACK)
+
+            self.screen.blit(part_1_rendered, (0.5 * width - part_1_rendered.get_width() // 2,
+                                               0.08 * height - part_1_rendered.get_height() // 2))
+
+            self.screen.blit(part_2_rendered, (0.5 * width - part_2_rendered.get_width() // 2,
+                                               0.14 * height - part_2_rendered.get_height() // 2))
+
+        else:
+            # one line
+            answer_rendered = font.render(question, True, BLACK)
+
+            self.screen.blit(answer_rendered, (0.5 * width - answer_rendered.get_width() // 2,
+                                               0.1 * height - answer_rendered.get_height() // 2))
 
         # possible answers
         answers = self.current_question().possible_answers
