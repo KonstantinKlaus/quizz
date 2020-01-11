@@ -44,7 +44,7 @@ class ClassicGame(GameMode):
             question = self.current_question().question_en
 
         # check if answer is too long for one line
-        if len(question > 40):
+        if len(question) > 40:
             # two lines
             part_1 = question[0:40]
             part_2 = question[41:]
