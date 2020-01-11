@@ -6,18 +6,19 @@ from gamemodes.game_mode import *
 
 class ClassicGame(GameMode):
 
-    ANSWER_TIME = 15000
+    ANSWER_TIME = 15
     seconds_left = ANSWER_TIME
 
     player_answers = [None, None, None, None]
     player_points = [0, 0, 0, 0]
 
-    def load_questions(self):
+    def __init__(self, game):
+        super().__init__(game)
         self.questions = self.game.question_db.get_questions(10)
 
     def run_game(self):
         self.game_running = True
-        pygame.time.set_timer(1000, TIME_EVENT)
+        pygame.time.set_timer(TIME_EVENT, 1000)
         while self.game_running:
             for event in pygame.event.get():
                 self.on_event(event)
