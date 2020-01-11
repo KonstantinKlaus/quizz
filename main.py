@@ -32,21 +32,17 @@ def main():
 
     # connect to controller
     buzz = None
-    game = Game(buzz)
-    laoding_screen = LoadingScreen(game)
-    laoding_screen.loading(dumb_task, (1,), "Loading Questions ... please wait")
+
     try:
         buzz = buzzcontroller.BuzzController()
     except AttributeError:
         logger.error("Error connecting to Buzz Controller")
         quit()
-
     logger.debug("start pygame")
     game = Game(buzz)
     laoding_screen = LoadingScreen(game)
-    laoding_screen.loading_screen()
+    laoding_screen.loading(dumb_task, (1,), "Loading Questions ... please wait")
     game.question_db.load_data()
-    laoding_screen.exit()
     game.start_buzz_listener()
     menu = Menu(game)
     menu.run_menu()
