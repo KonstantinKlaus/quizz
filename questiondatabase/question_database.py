@@ -20,7 +20,7 @@ categories = {"General Knowledge": 9, "Entertainment: Books": 10, "Entertainment
 def prepare_question(question):
     question_en = html.unescape(question["question"])
     question_de = html.unescape(translator.translate(question_en))
-    correct_answer= html.unescape(question["correct_answer"])
+    correct_answer = html.unescape(question["correct_answer"])
     incorrect_answers = []
     for incorrect_answer in question["incorrect_answers"]:
         incorrect_answers.append(html.unescape(incorrect_answer))
@@ -54,8 +54,9 @@ class QuestionDatabase:
                     self.logger.info("file empty, downloading data...")
                     self.download_initial()
         except FileNotFoundError:
-            self.logger.info("file not found, downloading data...")
-            self.download_initial()
+            self.logger.info("file not found, loading base db...")
+            # load std database from project
+            self.load_base_db()
 
     def save_data(self):
         home_path = str(Path.home())
@@ -105,3 +106,16 @@ class QuestionDatabase:
             new_questions = question_loader.get_questions(category=category_id, number=50)
             for new_question in new_questions:
                 self.insert_question(new_question)
+
+    def load_base_db(self):
+        home_path = str(Path.home())
+        self.logger.debug("home path:" + home_path)
+        try:
+            with open("data/questions.json") as json_file:
+                self.questions = json.load(json_file)
+                self.logger.debug("file read successful")
+                self.new_data = True
+
+        except FileNotFoundError:
+            self.logger.info("file not found, downloading data...")
+
