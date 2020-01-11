@@ -75,7 +75,8 @@ class QuestionDatabase:
         if category is None:
             keys = list(self.questions.keys())
             for i in range(1, number):
-                key, value = random.choice(keys)
+                key = random.choice(keys)
+                value = self.questions[key]
                 result.append(Question(value))
                 keys.remove(key)
         return result
