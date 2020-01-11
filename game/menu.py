@@ -1,13 +1,15 @@
+from gamemodes.classic import ClassicGame
+
 __author__ = "Konstantin Klaus"
 
 from game.constants import *
 import logging
 import pygame
 
-LANGUAGE_SELECTION = 0
-MAIN_MENU = 1
-GAME_MODE_SELECTION = 2
-OPTIONS = 3
+LANGUAGE_SELECTION: int = 0
+MAIN_MENU: int = 1
+GAME_MODE_SELECTION: int = 2
+OPTIONS: int = 3
 
 
 class Menu:
@@ -39,7 +41,6 @@ class Menu:
                     self.game.end_game()
                 elif event.button == "blue":
                     self.menu = GAME_MODE_SELECTION
-                    self.draw_game_mode_selection()
 
         # language selection
         elif self.menu == LANGUAGE_SELECTION:
@@ -47,32 +48,31 @@ class Menu:
                 if event.button == "blue":
                     self.game.set_language(DE)
                     self.menu = MAIN_MENU
-                    self.draw_main_menu()
                 elif event.button == "orange":
                     self.game.set_language(EN)
                     self.menu = MAIN_MENU
-                    self.draw_main_menu()
         # game mode selection
         elif self.menu == GAME_MODE_SELECTION:
             if event.type == BUZZEVENT:
                 if event.button == "yellow":
                     self.menu = MAIN_MENU
-                    self.draw_main_menu()
-
-        elif self.menu == GAME_MODE_SELECTION:
-            if event.type == BUZZEVENT:
-                if event.button == "yellow":
-                    self.menu = MAIN_MENU
-                    self.draw_main_menu()
+                elif event.button == "red":
+                    # start classic game
+                    game_mode = ClassicGame(self.game)
+                    game_mode.run_game()
 
     def on_loop(self):
         pass
 
     def on_render(self):
-        pass
+        if self.menu == LANGUAGE_SELECTION:
+            self.draw_language_selection()
+        elif self.menu == GAME_MODE_SELECTION:
+            self.draw_game_mode_selection()
+        else:
+            self.draw_main_menu()
 
     def run_menu(self):
-        self.draw_language_selection()
         self.menu = LANGUAGE_SELECTION
 
         while self.menu_running:

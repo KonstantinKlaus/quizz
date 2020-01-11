@@ -32,10 +32,9 @@ class GameMode:
 
     show_correct_answer = False
 
-    def __init__(self, game, question_db):
+    def __init__(self, game):
         self.logger = logging.getLogger("log")
         self.game = game
-        self.question_db = question_db
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.get_surface()
 

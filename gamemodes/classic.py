@@ -6,16 +6,18 @@ from gamemodes.game_mode import *
 
 class ClassicGame(GameMode):
 
-    ANSWER_TIME = 10000
-    SOLUTION_TIME = 2000
+    ANSWER_TIME = 15000
+    seconds_left = ANSWER_TIME
 
     player_answers = [None, None, None, None]
+    player_points = [0, 0, 0, 0]
 
     def load_questions(self):
-        self.questions = self.question_db.get_questions(10)
+        self.questions = self.game.question_db.get_questions(10)
 
     def run_game(self):
         self.game_running = True
+        pygame.time.set_timer(1000, TIME_EVENT)
         while self.game_running:
             for event in pygame.event.get():
                 self.on_event(event)
@@ -73,23 +75,33 @@ class ClassicGame(GameMode):
             if event.key == pygame.K_ESCAPE:
                 self.game.end_game()
         elif event.type == BUZZEVENT:
-            if event.button != "red":
-                controller = event.controller
-                button = button_value(event.button)
-                self.player_answers[controller] = button
-        elif event.type == TIMEOUT_EVENT:
+            # if correct answer is displayed
             if self.show_correct_answer:
-                if self.number_questions_left() == 0:
-                    # end game mode
-                    self.game_running = False
-                else:
-                    # next question
-                    self.next_question()
-                    self.player_answers = [None, None, None, None]
-                    pygame.time.set_timer(TIMEOUT_EVENT, self.ANSWER_TIME)
-                    self.show_correct_answer = False
+                if event.button == "red":
+                    # if now questions are left -> end game mode
+                    if self.number_questions_left() == 0:
+                        # end game mode
+                        self.game_running = False
+                    else:
+                        # next question
+                        self.next_question()
+                        self.player_answers = [None, None, None, None]
+                        self.show_correct_answer = False
+                        self.seconds_left = self.ANSWER_TIME
+            # else
             else:
-                # show correct answers
+                if event.button != "red":
+                    controller = event.controller
+                    button = button_value(event.button)
+                    self.player_answers[controller] = button
 
-                pygame.time.set_timer(TIMEOUT_EVENT, self.SOLUTION_TIME)
+        elif event.type == TIME_EVENT:
+            self.seconds_left -= 1
+
+            # if counter for next event is 0
+            if self.seconds_left == 0:
+                # show correct answers
                 self.show_correct_answer = True
+
+                # give points to players
+
