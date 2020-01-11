@@ -31,10 +31,3 @@ class Question:
                 return True
             else:
                 return False
-
-
-example_question = {"question": "Da?", "question_de": "Na?", "correct_answer": "Da!",
-                    "incorrect_answers": ["Wa", "Ra", "La"]}
-question = Question(example_question)
-answers = question.get_possible_answers()
-print(answers)
