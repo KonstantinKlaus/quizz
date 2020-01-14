@@ -8,7 +8,7 @@ def sort_score(score_list: list):
     # bubble sort
     for number in range(len(score_list) - 1, 0, -1):
         for i in range(number):
-            if score_list[i][2] > score_list[i + 1][2]:
+            if score_list[i][1] > score_list[i + 1][1]:
                 temp = score_list[i]
                 score_list[i] = score_list[i + 1]
                 score_list[i + 1] = temp
@@ -22,6 +22,8 @@ class ClassicGame(GameMode):
     player_answers = [None, None, None, None]
     player_points = [0, 0, 0, 0]
 
+    score_list = []
+
     def __init__(self, game):
         super().__init__(game)
         self.questions = self.game.question_db.get_questions(10)
@@ -30,7 +32,7 @@ class ClassicGame(GameMode):
         for selection in self.player_answers:
             if selection is not None:
                 return False
-        return False
+        return True
 
     def run_game(self):
         self.game_running = True
@@ -129,20 +131,13 @@ class ClassicGame(GameMode):
         # font
         font = pygame.font.Font('freesansbold.ttf', int(0.1 * height))
 
-        # make score
-        score_list = []
-        for i in range(0, 3):
-            score_list.append((i, self.player_points[i]))
-
-        sort_score(score_list)
-
         score_text = []
         for i in range(0, 3):
             if self.game.language == DE:
                 player_string = "Spieler"
             else:
                 player_string = "Player"
-            score_text[i] = "%u - %s %u" % (score_list[i][2], player_string, score_list[i][1])
+            score_text[i] = "%u - %s %u" % (self.score_list[i][1], player_string, self.score_list[i][0])
 
         for index in range(0, 3):
             text = font.render(score_text[index], True, BLACK)
@@ -198,6 +193,12 @@ class ClassicGame(GameMode):
                         # goto score
                         self.game_state = SCORE
                         self.game.controller.controller_lights_on()
+
+                        # make score
+                        for i in range(0, 3):
+                            self.score_list.append((i, self.player_points[i]))
+
+                        sort_score(self.score_list)
                     else:
                         # next question
                         self.next_question()
