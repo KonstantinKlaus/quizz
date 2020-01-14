@@ -132,7 +132,7 @@ class ClassicGame(GameMode):
         font = pygame.font.Font('freesansbold.ttf', int(0.1 * height))
 
         score_text = []
-        for i in range(0, 3):
+        for i in range(0, 4):
             if self.game.language == DE:
                 player_string = "Spieler"
             else:
