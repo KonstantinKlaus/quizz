@@ -26,6 +26,13 @@ class ClassicGame(GameMode):
             self.on_render()
             self.clock.tick(30)
 
+    def all_select(self):
+        for selection in self.player_answers:
+            if selection is not None:
+                return False
+        return False
+
+
     def on_loop(self):
         pass
 
@@ -137,7 +144,7 @@ class ClassicGame(GameMode):
             self.seconds_left -= 1
 
             # if counter for next event is 0
-            if self.seconds_left == 0:
+            if self.seconds_left == 0 or self.all_select():
                 # show correct answers
                 self.show_correct_answer = True
 
