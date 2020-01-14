@@ -69,7 +69,7 @@ class Game:
         while self.game_is_running:
             button_states = self.controller.get_button_status()
             if button_states is not None:
-                for controller_id in range(0, 3):
+                for controller_id in range(0, 4):
                     for button in ["red", "blue", "orange", "green", "yellow"]:
                         # check if False -> True
                         if button_states[controller_id][button]:

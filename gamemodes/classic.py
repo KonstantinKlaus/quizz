@@ -139,7 +139,7 @@ class ClassicGame(GameMode):
                 player_string = "Player"
             score_text.append("%u - %s %u" % (self.score_list[i][1], player_string, self.score_list[i][0]))
 
-        for index in range(0, 3):
+        for index in range(0, 4):
             text = font.render(score_text[index], True, BLACK)
 
             self.screen.blit(text, (0.5 * width - text.get_width() // 2, (0.2 + 0.2 * index) * height - text.get_height() // 2))
@@ -177,7 +177,7 @@ class ClassicGame(GameMode):
                     # give points to players
                     index_correct_answer = self.current_question().index_correct_answer()
 
-                    for player in range(0, 3):
+                    for player in range(0, 4):
                         if self.player_answers[player] == index_correct_answer:
                             self.player_points[player] = self.player_points[player] + 1
 
@@ -195,7 +195,7 @@ class ClassicGame(GameMode):
                         self.game.controller.controller_lights_on()
 
                         # make score
-                        for i in range(0, 3):
+                        for i in range(0, 4):
                             self.score_list.append((i, self.player_points[i]))
 
                         sort_score(self.score_list)
