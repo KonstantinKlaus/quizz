@@ -4,6 +4,16 @@ from game.constants import *
 from gamemodes.game_mode import *
 
 
+def sort_score(score_list: list):
+    # bubble sort
+    for number in range(len(score_list) - 1, 0, -1):
+        for i in range(number):
+            if score_list[i][2] > score_list[i + 1][2]:
+                temp = score_list[i]
+                score_list[i] = score_list[i + 1]
+                score_list[i + 1] = temp
+
+
 class ClassicGame(GameMode):
 
     ANSWER_TIME = 15
@@ -16,27 +26,28 @@ class ClassicGame(GameMode):
         super().__init__(game)
         self.questions = self.game.question_db.get_questions(10)
 
-    def run_game(self):
-        self.game_running = True
-        pygame.time.set_timer(TIME_EVENT, 1000)
-        while self.game_running:
-            for event in pygame.event.get():
-                self.on_event(event)
-            self.on_loop()
-            self.on_render()
-            self.clock.tick(30)
-
     def all_select(self):
         for selection in self.player_answers:
             if selection is not None:
                 return False
         return False
 
-
-    def on_loop(self):
-        pass
+    def run_game(self):
+        self.game_running = True
+        pygame.time.set_timer(TIME_EVENT, 1000)
+        while self.game_running:
+            for event in pygame.event.get():
+                self.on_event(event)
+            self.on_render()
+            self.clock.tick(30)
 
     def on_render(self):
+        if self.game_state == SCORE:
+            self.draw_score()
+        else:
+            self.draw_game()
+
+    def draw_game(self):
         self.screen.fill(WHITE)
 
         (width, height) = self.screen.get_size()
@@ -74,7 +85,7 @@ class ClassicGame(GameMode):
         # possible answers
         answers = self.current_question().possible_answers
 
-        if self.show_correct_answer:
+        if self.game_state == ANSWER:
             index = self.current_question().index_correct_answer()
             text = font.render(answers[index], True, BLACK)
 
@@ -110,46 +121,94 @@ class ClassicGame(GameMode):
 
         pygame.display.update()
 
+    def draw_score(self):
+        self.screen.fill(WHITE)
+
+        (width, height) = self.screen.get_size()
+
+        # font
+        font = pygame.font.Font('freesansbold.ttf', int(0.1 * height))
+
+        # make score
+        score_list = []
+        for i in range(0, 3):
+            score_list.append((i, self.player_points[i]))
+
+        sort_score(score_list)
+
+        score_text = []
+        for i in range(0, 3):
+            if self.game.language == DE:
+                player_string = "Spieler"
+            else:
+                player_string = "Player"
+            score_text[i] = "%u - %s %u" % (score_list[i][2], player_string, score_list[i][1])
+
+        for index in range(0, 3):
+            text = font.render(score_text[index], True, BLACK)
+
+            self.screen.blit(text, (0.5 * width - text.get_width() // 2, (0.2 + 0.2 * index) * height - text.get_height() // 2))
+
+        pygame.display.update()
+
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self.game.end_game()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.game.end_game()
-        elif event.type == BUZZEVENT:
-            # if correct answer is displayed
-            if self.show_correct_answer:
+
+        # if question is showed
+        elif self.game_state == QUESTION:
+            # button is pressed
+            if event.type == BUZZEVENT:
+                if event.button != "red":
+                    controller = event.controller
+                    button = button_value(event.button)
+                    self.player_answers[controller] = button
+
+            # a second has passed
+            elif event.type == TIME_EVENT:
+                self.seconds_left -= 1
+
+                # if counter for next event is 0
+                if self.seconds_left == 0 or self.all_select():
+                    # show correct answers
+                    self.game_state = ANSWER
+
+                    # buttons blinking
+                    self.game.controller.controller_lights_blink()
+
+                    # give points to players
+                    index_correct_answer = self.current_question().index_correct_answer()
+
+                    for player in range(0, 3):
+                        if self.player_answers[player] == index_correct_answer:
+                            self.player_points[player] = self.player_points[player] + 1
+
+        # if answer is showed
+        elif self.game_state == ANSWER:
+            if event.type == BUZZEVENT:
                 if event.button == "red":
                     # stop blinking
                     self.game.controller.controller_lights_off()
 
                     # if now questions are left -> end game mode
                     if self.number_questions_left() == 0:
-                        # end game mode
-                        self.game_running = False
+                        # goto score
+                        self.game_state = SCORE
+                        self.game.controller.controller_lights_on()
                     else:
                         # next question
                         self.next_question()
                         self.player_answers = [None, None, None, None]
-                        self.show_correct_answer = False
+                        self.game_state = QUESTION
                         self.seconds_left = self.ANSWER_TIME
-            # else
-            else:
-                if event.button != "red":
-                    controller = event.controller
-                    button = button_value(event.button)
-                    self.player_answers[controller] = button
 
-        elif event.type == TIME_EVENT:
-            self.seconds_left -= 1
-
-            # if counter for next event is 0
-            if self.seconds_left == 0 or self.all_select():
-                # show correct answers
-                self.show_correct_answer = True
-
-                # buttons blinking
-                self.game.controller.controller_lights_blink()
-
-                # give points to players
-
+        # if score is showed
+        elif self.game_state == SCORE:
+            if event.type == BUZZEVENT:
+                if event.button == "red":
+                    # lights off and end game mode
+                    self.game.controller.controller_lights_off()
+                    self.game_running = False

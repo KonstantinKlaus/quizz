@@ -4,24 +4,9 @@ import pygame
 import logging
 from gamemodes.question import Question
 
-BLUE_BUTTON = 0
-ORANGE_BUTTON = 1
-GREEN_BUTTON = 2
-YELLOW_BUTTON = 3
-RED_BUTTON = 5
-
-
-def button_value(button: str) -> int:
-    if button == "blue":
-        return BLUE_BUTTON
-    elif button == "orange":
-        return ORANGE_BUTTON
-    elif button == "green":
-        return GREEN_BUTTON
-    elif button == "yellow":
-        return YELLOW_BUTTON
-    else:
-        return RED_BUTTON
+QUESTION = 0
+ANSWER = 1
+SCORE = 2
 
 
 class GameMode:
@@ -30,7 +15,7 @@ class GameMode:
 
     game_running = False
 
-    show_correct_answer = False
+    game_state = QUESTION
 
     def __init__(self, game):
         self.logger = logging.getLogger("log")
