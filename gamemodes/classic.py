@@ -30,7 +30,7 @@ class ClassicGame(GameMode):
 
     def all_select(self):
         for selection in self.player_answers:
-            if selection is not None:
+            if selection is None:
                 return False
         return True
 
@@ -137,7 +137,7 @@ class ClassicGame(GameMode):
                 player_string = "Spieler"
             else:
                 player_string = "Player"
-            score_text[i] = "%u - %s %u" % (self.score_list[i][1], player_string, self.score_list[i][0])
+            score_text.append("%u - %s %u" % (self.score_list[i][1], player_string, self.score_list[i][0]))
 
         for index in range(0, 3):
             text = font.render(score_text[index], True, BLACK)
