@@ -14,8 +14,10 @@ class Game:
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
                         {"red": False, "blue": False, "orange": False, "green": False, "yellow": False}]
 
-    question_db = QuestionDatabase()
+    question_db: QuestionDatabase = QuestionDatabase()
     controller: BuzzController
+
+    online = False
 
     def __init__(self, controller: BuzzController, language=DE):
         # logger
@@ -43,6 +45,11 @@ class Game:
             self.language = EN
         else:
             self.language = language
+
+    def check_online_state(self):
+        self.online = True
+        pass
+        # TODO check connection
 
     def screen(self):
         return self.screen()

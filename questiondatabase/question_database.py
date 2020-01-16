@@ -103,6 +103,9 @@ class QuestionDatabase:
         logging.info("new question added to database with id " + str(self.max_id))
 
     def download_initial(self):
+        # rebase database
+        self.questions = {}
+        self.max_id = 0
         for category_id in categories.values():
             new_questions = question_loader.get_questions(category=category_id, number=50)
             for new_question in new_questions:
