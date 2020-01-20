@@ -5,8 +5,7 @@ import logging
 import html
 
 from gamemodes.question import Question
-from questionloader import question_loader
-from translator import translator
+from network import question_loader, translator
 
 categories = {"General Knowledge": 9, "Entertainment: Books": 10, "Entertainment: Film": 11, "Entertainment: Music": 12,
               "Entertainment: Musicals & Theatres": 13, "Entertainment: Television": 14,
@@ -18,16 +17,23 @@ categories = {"General Knowledge": 9, "Entertainment: Books": 10, "Entertainment
 
 
 def prepare_question(question):
+    # unescape and translate
     question_en = html.unescape(question["question"])
     question_de = html.unescape(translator.translate(question_en))
     correct_answer = html.unescape(question["correct_answer"])
+    correct_answer_de = html.unescape(translator.translate(correct_answer))
     incorrect_answers = []
+    incorrect_answers_de = []
     for incorrect_answer in question["incorrect_answers"]:
-        incorrect_answers.append(html.unescape(incorrect_answer))
+        temp = html.unescape(incorrect_answer)
+        incorrect_answers.append(temp)
+        incorrect_answers_de.append(html.unescape(translator.translate(temp)))
     question["question"] = question_en
     question["question_de"] = question_de
     question["correct_answer"] = correct_answer
+    question["correct_answer_de"] = correct_answer_de
     question["incorrect_answers"] = incorrect_answers
+    question["incorrect_answers_de"] = incorrect_answers_de
     return question
 
 

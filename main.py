@@ -1,20 +1,12 @@
-import sched
-
-from game.loading_screen import LoadingScreen
-from questiondatabase.question_database import QuestionDatabase, prepare_question
 from game.game import Game
+from game.loading_screen import LoadingScreen
 from game.menu import Menu
-from questionloader import question_loader
-from translator import translator
 
 __author__ = "Konstantin Klaus"
 
 import logging
 from controller import buzzcontroller
 import time
-import threading
-from random import shuffle
-import pygame
 
 
 def dumb_task(seconds):
@@ -40,6 +32,8 @@ def main():
         buzz = None
     logger.debug("start pygame")
     game = Game(buzz)
+    loading_screen = LoadingScreen(game)
+    loading_screen.start_task(game.check_online_state())
     game.question_db.load_data()
     game.start_buzz_listener()
     menu = Menu(game)

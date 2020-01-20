@@ -10,6 +10,7 @@ ORANGE = (255, 128, 0)
 GREEN = (0, 102, 0)
 YELLOW = (255, 255, 0)
 RED = (204, 0, 0)
+GREY = (192, 192, 192)
 
 
 def get_color_by_index(index: int):

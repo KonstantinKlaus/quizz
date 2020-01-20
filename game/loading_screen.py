@@ -37,7 +37,7 @@ class LoadingScreen:
             self.on_render()
             self.clock.tick(30)
 
-    def start_task(self, task, params):
+    def start_task(self, task, params=()):
         # start work thread
         self.is_loading = True
         self.job = threading.Thread(target=task, args=params)

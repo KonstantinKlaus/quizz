@@ -61,6 +61,8 @@ class Menu:
                     self.game.end_game()
                 elif event.button == "blue":
                     self.menu = GAME_MODE_SELECTION
+                elif event.button == "orange":
+                    self.menu = QUESTIONS
 
         # language selection
         elif self.menu == LANGUAGE_SELECTION:
@@ -83,15 +85,15 @@ class Menu:
                     game_mode.run_game()
 
         # question selection
-        elif self.menu == GAME_MODE_SELECTION:
+        elif self.menu == QUESTIONS:
             if event.type == BUZZEVENT:
                 if event.button == "yellow":
                     self.menu = MAIN_MENU
                 elif event.button == "blue" and self.game.online:
                     # rebase question Database
-                    laoding_screen = LoadingScreen(self.game)
-                    laoding_screen.loading(self.game.question_db.download_initial, (),
-                                           self.strings[self.game.language]["loading_questions"],)
+                    loading_screen = LoadingScreen(self.game)
+                    loading_screen.loading(self.game.question_db.download_initial, (),
+                                           self.strings[self.game.language]["loading_questions"])
 
     def on_loop(self):
         pass
@@ -159,7 +161,10 @@ class Menu:
         # rec3 = pygame.Rect(0.3 * width, 0.6 * height, 0.4 * width, 0.15 * height)
         rec4 = pygame.Rect(0.3 * width, 0.8 * height, 0.4 * width, 0.15 * height)
 
-        pygame.draw.rect(self.screen, BLUE, rec1)
+        if self.game.online:
+            pygame.draw.rect(self.screen, BLUE, rec1)
+        else:
+            pygame.draw.rect(self.screen, GREY, rec1)
         # pygame.draw.rect(self.screen, ORANGE, rec2)
         # pygame.draw.rect(self.screen, GREEN, rec3)
         pygame.draw.rect(self.screen, YELLOW, rec4)

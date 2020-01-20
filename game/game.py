@@ -4,6 +4,7 @@ import time
 
 from controller.buzzcontroller import BuzzController
 from game.constants import *
+from network.network import check_connection
 from questiondatabase.question_database import QuestionDatabase
 
 
@@ -47,9 +48,7 @@ class Game:
             self.language = language
 
     def check_online_state(self):
-        self.online = True
-        pass
-        # TODO check connection
+        self.online = check_connection()
 
     def screen(self):
         return self.screen()
