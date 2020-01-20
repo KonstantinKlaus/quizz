@@ -60,16 +60,18 @@ class Game:
             self.question_db.save_data()
 
         self.game_is_running = False
-        self.controller.controller_lights_off()
+        if self.controller is not None:
+            self.controller.controller_lights_off()
         self.logger.info("End program")
         pygame.quit()
         quit()
 
     def start_buzz_listener(self):
-        self.listener_thread = threading.Thread(target=self.listen_buzz,
-                                                args=(),
-                                                )
-        self.listener_thread.start()
+        if self.controller is not None:
+            self.listener_thread = threading.Thread(target=self.listen_buzz,
+                                                    args=(),
+                                                    )
+            self.listener_thread.start()
 
     def listen_buzz(self):
         self.logger.debug("start thread")

@@ -36,12 +36,10 @@ def main():
     try:
         buzz = buzzcontroller.BuzzController()
     except AttributeError:
-        logger.error("Error connecting to Buzz Controller")
-        quit()
+        logger.info("Error connecting to Buzz Controller, use keyboard instead")
+        buzz = None
     logger.debug("start pygame")
     game = Game(buzz)
-    laoding_screen = LoadingScreen(game)
-    laoding_screen.loading(dumb_task, (1,), "Loading Questions ... please wait")
     game.question_db.load_data()
     game.start_buzz_listener()
     menu = Menu(game)

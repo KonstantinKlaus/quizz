@@ -38,6 +38,21 @@ class Menu:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.game.end_game()
+            elif event.key == pygame.K_1:
+                event = pygame.event.Event(BUZZEVENT, controller=0, button="red")
+                pygame.event.post(event)
+            elif event.key == pygame.K_2:
+                event = pygame.event.Event(BUZZEVENT, controller=0, button="blue")
+                pygame.event.post(event)
+            elif event.key == pygame.K_3:
+                event = pygame.event.Event(BUZZEVENT, controller=0, button="orange")
+                pygame.event.post(event)
+            elif event.key == pygame.K_4:
+                event = pygame.event.Event(BUZZEVENT, controller=0, button="green")
+                pygame.event.post(event)
+            elif event.key == pygame.K_5:
+                event = pygame.event.Event(BUZZEVENT, controller=0, button="yellow")
+                pygame.event.post(event)
 
         # main menu
         elif self.menu == MAIN_MENU:
