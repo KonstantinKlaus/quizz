@@ -1,3 +1,5 @@
+__author__ = "Konstantin Klaus"
+
 import json
 import random
 from pathlib import Path

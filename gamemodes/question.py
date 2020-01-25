@@ -1,3 +1,5 @@
+__author__ = "Konstantin Klaus"
+
 import random
 
 

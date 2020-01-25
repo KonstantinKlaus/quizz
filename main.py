@@ -1,3 +1,5 @@
+__author__ = "Konstantin Klaus"
+
 from game.game import Game
 from game.loading_screen import LoadingScreen
 from game.menu import Menu

@@ -1,3 +1,5 @@
+__author__ = "Konstantin Klaus"
+
 import logging
 
 try:
@@ -37,7 +39,7 @@ class BuzzController:
         self.controller = [controller1, controller2, controller3, controller4]
         self.logger.debug("controller classes instantiated")
 
-    def get_controller(self, controller_id):
+    def get_controller(self, controller_id) -> SingleController:
         return self.controller[controller_id]
 
     def controller_lights_off(self):

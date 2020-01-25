@@ -1,7 +1,7 @@
+__author__ = "Konstantin Klaus"
+
 import threading
-
 import pygame
-
 from game.constants import BLACK, WHITE
 
 
