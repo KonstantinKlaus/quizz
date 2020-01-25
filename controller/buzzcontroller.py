@@ -1,5 +1,9 @@
-import hid
 import logging
+
+try:
+    import hid
+except ImportError:
+    pass
 
 from controller.single_controller import SingleController
 

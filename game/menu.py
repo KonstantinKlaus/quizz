@@ -18,11 +18,15 @@ class Menu:
     strings = {
         EN: {"quit": "Quit", "options": "Options", "questions": "Questions", "start game": "Start Game",
              "game_mode_1": "Classic", "back": "Back",
-             "loading_questions": "Rebasing Question Database ... please wait"},
+             "loading_questions": "Rebasing Question Database ... please wait",
+             "new_questions": "New Questions", "language_selection": "Language Selection",
+             "check_connection": "Check Network Connection"},
 
         DE: {"quit": "Beenden", "options": "Optionen", "questions": "Fragen", "start game": "Spiel starten",
              "game_mode_1": "Klassisch", "back": "Zurück",
-             "loading_questions": "Fragenkatalog wird neu erstellt... bitte warten"}}
+             "loading_questions": "Fragenkatalog wird neu erstellt... bitte warten",
+             "new_questions": "Neue Fragen herunterladen", "language_selection": "Sprachauswahl",
+             "check_connection": "Netzwerkverbindung prüfen"}}
 
     def __init__(self, game):
         self.screen = pygame.display.get_surface()
@@ -95,6 +99,16 @@ class Menu:
                     loading_screen.loading(self.game.question_db.download_initial, (),
                                            self.strings[self.game.language]["loading_questions"])
 
+        # options menu
+        elif self.menu == OPTIONS:
+            if event.type == BUZZEVENT:
+                if event.button == "yellow":
+                    self.menu = MAIN_MENU
+                elif event.button == "blue":
+                    # check connection
+                    loading_screen = LoadingScreen(self.game)
+                    loading_screen.loading(self.game.check_online_state, ())
+
     def on_loop(self):
         pass
 
@@ -105,6 +119,8 @@ class Menu:
             self.draw_game_mode_selection()
         elif self.menu == QUESTIONS:
             self.draw_question_menu()
+        elif self.menu == OPTIONS:
+            self.draw_option_menu()
         else:
             self.draw_main_menu()
 
@@ -157,29 +173,57 @@ class Menu:
 
         # Menu Buttons
         rec1 = pygame.Rect(0.3 * width, 0.2 * height, 0.4 * width, 0.15 * height)
-        # rec2 = pygame.Rect(0.3 * width, 0.4 * height, 0.4 * width, 0.15 * height)
-        # rec3 = pygame.Rect(0.3 * width, 0.6 * height, 0.4 * width, 0.15 * height)
+        rec2 = pygame.Rect(0.3 * width, 0.4 * height, 0.4 * width, 0.15 * height)
         rec4 = pygame.Rect(0.3 * width, 0.8 * height, 0.4 * width, 0.15 * height)
 
         if self.game.online:
             pygame.draw.rect(self.screen, BLUE, rec1)
+            pygame.draw.rect(self.screen, ORANGE, rec2)
         else:
             pygame.draw.rect(self.screen, GREY, rec1)
-        # pygame.draw.rect(self.screen, ORANGE, rec2)
-        # pygame.draw.rect(self.screen, GREEN, rec3)
+            pygame.draw.rect(self.screen, ORANGE, rec2)
+
         pygame.draw.rect(self.screen, YELLOW, rec4)
 
         # Button Text
         font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
 
         text1 = font.render("Rebase Questions", True, BLACK)
-        # text2 = font.render(self.strings[self.game.language]["questions"], True, BLACK)
-        # text3 = font.render(self.strings[self.game.language]["options"], True, BLACK)
+        text2 = font.render(self.strings[self.game.language]["new_questions"], True, BLACK)
+
         text4 = font.render(self.strings[self.game.language]["back"], True, BLACK)
 
         self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.275 * height - text1.get_height() // 2))
-        # self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.475 * height - text2.get_height() // 2))
-        # self.screen.blit(text3, (0.5 * width - text3.get_width() // 2, 0.675 * height - text3.get_height() // 2))
+        self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.475 * height - text2.get_height() // 2))
+        self.screen.blit(text4, (0.5 * width - text4.get_width() // 2, 0.875 * height - text4.get_height() // 2))
+
+        pygame.display.update()
+
+    def draw_option_menu(self):
+        self.screen.fill(WHITE)
+
+        (width, height) = self.screen.get_size()
+
+        # Menu Buttons
+        rec1 = pygame.Rect(0.3 * width, 0.2 * height, 0.4 * width, 0.15 * height)
+        rec2 = pygame.Rect(0.3 * width, 0.4 * height, 0.4 * width, 0.15 * height)
+        rec4 = pygame.Rect(0.3 * width, 0.8 * height, 0.4 * width, 0.15 * height)
+
+        pygame.draw.rect(self.screen, BLUE, rec1)
+        pygame.draw.rect(self.screen, ORANGE, rec2)
+
+        pygame.draw.rect(self.screen, YELLOW, rec4)
+
+        # Button Text
+        font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
+
+        text1 = font.render(self.strings[self.game.language]["check_connection"], True, BLACK)
+        text2 = font.render(self.strings[self.game.language]["language_selection"], True, BLACK)
+
+        text4 = font.render(self.strings[self.game.language]["back"], True, BLACK)
+
+        self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.275 * height - text1.get_height() // 2))
+        self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.475 * height - text2.get_height() // 2))
         self.screen.blit(text4, (0.5 * width - text4.get_width() // 2, 0.875 * height - text4.get_height() // 2))
 
         pygame.display.update()
