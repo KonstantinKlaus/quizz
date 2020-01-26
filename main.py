@@ -4,8 +4,6 @@ from game.game import Game
 from game.loading_screen import LoadingScreen
 from game.menu import Menu
 
-__author__ = "Konstantin Klaus"
-
 import logging
 from controller import buzzcontroller
 import time
@@ -25,11 +23,9 @@ def main():
     logger.addHandler(ch)
 
     # connect to controller
-    buzz = None
-
     try:
         buzz = buzzcontroller.BuzzController()
-    except AttributeError:
+    except (AttributeError, NameError):
         logger.info("Error connecting to Buzz Controller, use keyboard instead")
         buzz = None
     logger.debug("start pygame")

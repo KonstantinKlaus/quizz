@@ -1,10 +1,8 @@
 __author__ = "Konstantin Klaus"
 
 from game.loading_screen import LoadingScreen
+from gamemodes.buzz_mode import BuzzMode
 from gamemodes.classic import ClassicGame
-
-__author__ = "Konstantin Klaus"
-
 from game.constants import *
 import logging
 import pygame
@@ -15,6 +13,11 @@ GAME_MODE_SELECTION: int = 2
 OPTIONS: int = 3
 QUESTIONS: int = 4
 
+CLASSIC: int = 0
+BUZZ: int = 1
+
+MAX_GAME_MODE = 2
+
 
 class Menu:
     strings = {
@@ -22,13 +25,17 @@ class Menu:
              "game_mode_1": "Classic", "back": "Back",
              "loading_questions": "Rebasing Question Database ... please wait",
              "new_questions": "New Questions", "language_selection": "Language Selection",
-             "check_connection": "Check Network Connection"},
+             "check_connection": "Check Network Connection", CLASSIC: "Classic Mode",
+             BUZZ: "Buzz Mode"},
 
         DE: {"quit": "Beenden", "options": "Optionen", "questions": "Fragen", "start game": "Spiel starten",
              "game_mode_1": "Klassisch", "back": "Zurück",
              "loading_questions": "Fragenkatalog wird neu erstellt... bitte warten",
              "new_questions": "Neue Fragen herunterladen", "language_selection": "Sprachauswahl",
-             "check_connection": "Netzwerkverbindung prüfen"}}
+             "check_connection": "Netzwerkverbindung prüfen", CLASSIC: "Klassischer Modus",
+             BUZZ: "Buzz Modus"}}
+
+    selected_game_mode = CLASSIC
 
     def __init__(self, game):
         self.screen = pygame.display.get_surface()
@@ -85,10 +92,13 @@ class Menu:
             if event.type == BUZZEVENT:
                 if event.button == "yellow":
                     self.menu = MAIN_MENU
-                elif event.button == "red":
+                elif event.button == "blue":
+                    self.game_mode_up()
+                elif event.button == "green":
+                    self.game_mode_down()
+                elif event.button == "red" or event.button == "orange":
                     # start classic game
-                    game_mode = ClassicGame(self.game)
-                    game_mode.run_game()
+                    self.start_game_mode()
 
         # question selection
         elif self.menu == QUESTIONS:
@@ -259,23 +269,51 @@ class Menu:
         (width, height) = self.screen.get_size()
 
         # Menu Buttons
-        rec2 = pygame.Rect(0.3 * width, 0.3 * height, 0.4 * width, 0.15 * height)
-        rec4 = pygame.Rect(0.3 * width, 0.8 * height, 0.4 * width, 0.15 * height)
+        rec2 = pygame.Rect(0.2 * width, 0.3125 * height, 0.6 * width, 0.125 * height)
+        rec4 = pygame.Rect(0.3 * width, 0.825 * height, 0.4 * width, 0.1 * height)
 
         pygame.draw.polygon(self.screen, BLUE,
-                            [(0.5 * width, 0.1 * height), (0.4 * width, 0.25 * height), (0.6 * width, 0.25 * height)])
+                            [(0.5 * width, 0.025 * height), (0.4 * width, 0.175 * height),
+                             (0.6 * width, 0.175 * height)])
         pygame.draw.rect(self.screen, RED, rec2)
         pygame.draw.polygon(self.screen, ORANGE,
-                            [(0.5 * width, 0.65 * height), (0.4 * width, 0.5 * height), (0.6 * width, 0.5 * height)])
+                            [(0.5 * width, 0.725 * height), (0.4 * width, 0.575 * height),
+                             (0.6 * width, 0.575 * height)])
         pygame.draw.rect(self.screen, YELLOW, rec4)
 
         # Button Text
         font = pygame.font.Font('freesansbold.ttf', int(0.075 * height))
 
-        text1 = font.render(self.strings[self.game.language]["game_mode_1"], True, BLACK)
-        text2 = font.render(self.strings[self.game.language]["back"], True, BLACK)
+        text_game_mode = font.render(self.strings[self.game.language][self.selected_game_mode], True, BLACK)
+        text_back = font.render(self.strings[self.game.language]["back"], True, BLACK)
+        text_next_game_mode = \
+            font.render(self.strings[self.game.language][(self.selected_game_mode + 1) % MAX_GAME_MODE], True,
+                        DARK_GREY)
+        text_last_next_game_mode = \
+            font.render(self.strings[self.game.language][(self.selected_game_mode - 1) % MAX_GAME_MODE], True,
+                        DARK_GREY)
 
-        self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.375 * height - text1.get_height() // 2))
-        self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.875 * height - text2.get_height() // 2))
+        self.screen.blit(text_game_mode, (0.5 * width - text_game_mode.get_width() // 2,
+                                          0.375 * height - text_game_mode.get_height() // 2))
+        self.screen.blit(text_back, (0.5 * width - text_back.get_width() // 2,
+                                     0.875 * height - text_back.get_height() // 2))
+        self.screen.blit(text_next_game_mode, (0.5 * width - text_next_game_mode.get_width() // 2,
+                                               0.25 * height - text_next_game_mode.get_height() // 2))
+        self.screen.blit(text_last_next_game_mode, (0.5 * width - text_last_next_game_mode.get_width() // 2,
+                                                    0.5 * height - text_last_next_game_mode.get_height() // 2))
 
         pygame.display.update()
+
+    def game_mode_up(self):
+        self.selected_game_mode = (self.selected_game_mode + 1) % MAX_GAME_MODE
+
+    def game_mode_down(self):
+        self.selected_game_mode = (self.selected_game_mode - 1) % MAX_GAME_MODE
+
+    def start_game_mode(self):
+        # start game mode
+        if self.selected_game_mode == CLASSIC:
+            game_mode = ClassicGame(self.game)
+        else:
+            game_mode = BuzzMode(self.game)
+        game_mode.run_game()

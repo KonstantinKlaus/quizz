@@ -1,3 +1,5 @@
+__author__ = "Konstantin Klaus"
+
 import pygame
 
 EN = 0
@@ -11,6 +13,7 @@ GREEN = (0, 102, 0)
 YELLOW = (255, 255, 0)
 RED = (204, 0, 0)
 GREY = (192, 192, 192)
+DARK_GREY = (84, 84, 84)
 
 
 def get_color_by_index(index: int):
