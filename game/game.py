@@ -10,6 +10,12 @@ from network.network import check_connection
 from questiondatabase.question_database import QuestionDatabase
 
 
+def click_sound():
+    if pygame.mixer.get_init() is not None:
+        sound = pygame.mixer.Sound("sounds/click.wav")
+        sound.play()
+
+
 class Game:
     # button states
     button_state_old = [{"red": False, "blue": False, "orange": False, "green": False, "yellow": False},
@@ -39,7 +45,10 @@ class Game:
         pygame.display.set_caption("minimal program")
 
         # create a surface on screen that has the size of 240 x 180
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((800, 500),)
+
+        # init sound
+        pygame.mixer.init()
 
         self.controller = controller
 

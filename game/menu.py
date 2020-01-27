@@ -1,5 +1,6 @@
 __author__ = "Konstantin Klaus"
 
+from game.game import click_sound
 from game.loading_screen import LoadingScreen
 from gamemodes.buzz_mode import BuzzMode
 from gamemodes.classic import ClassicGame
@@ -70,6 +71,7 @@ class Menu:
         # main menu
         elif self.menu == MAIN_MENU:
             if event.type == BUZZEVENT:
+                click_sound()
                 if event.button == "yellow":
                     self.game.end_game()
                 elif event.button == "blue":
@@ -80,6 +82,7 @@ class Menu:
         # language selection
         elif self.menu == LANGUAGE_SELECTION:
             if event.type == BUZZEVENT:
+                click_sound()
                 if event.button == "blue":
                     self.game.set_language(DE)
                     self.menu = MAIN_MENU
@@ -90,6 +93,7 @@ class Menu:
         # game mode selection
         elif self.menu == GAME_MODE_SELECTION:
             if event.type == BUZZEVENT:
+                click_sound()
                 if event.button == "yellow":
                     self.menu = MAIN_MENU
                 elif event.button == "blue":
@@ -103,6 +107,7 @@ class Menu:
         # question selection
         elif self.menu == QUESTIONS:
             if event.type == BUZZEVENT:
+                click_sound()
                 if event.button == "yellow":
                     self.menu = MAIN_MENU
                 elif event.button == "blue" and self.game.online:
