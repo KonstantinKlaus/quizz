@@ -78,6 +78,8 @@ class Menu:
                     self.menu = GAME_MODE_SELECTION
                 elif event.button == "orange":
                     self.menu = QUESTIONS
+                elif event.button == "orange":
+                    self.menu = OPTIONS
 
         # language selection
         elif self.menu == LANGUAGE_SELECTION:

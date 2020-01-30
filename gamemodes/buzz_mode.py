@@ -14,7 +14,7 @@ class BuzzMode(GameMode):
     player_points = [0, 0, 0, 0]
     player_answered = [False, False, False, False]
 
-    answers_availible = [True, True, True, True]
+    answers_available = [True, True, True, True]
 
     score_list = []
 
@@ -34,12 +34,17 @@ class BuzzMode(GameMode):
             self.on_render()
             self.clock.tick(30)
 
+    def all_answered(self) -> bool:
+        for answer in self.answers_available:
+            if not answer:
+                return True
+        return False
+
     def on_render(self):
         if self.game_state == SCORE:
             self.draw_score()
         else:
             self.draw_game()
-
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -59,18 +64,39 @@ class BuzzMode(GameMode):
                         if not self.player_answered[player_buzzed]:
                             self.buzzed = True
                             self.player_buzzed = player_buzzed
-                            # stop blinking, controller that buzzed light ons
+                            # stop blinking, controller that buzzed lights on
                             self.game.controller.controller_lights_off()
                             self.game.controller.get_controller(player_buzzed).light_on()
+                            # set timer
+                            self.seconds_left = self.ANSWER_TIME
+                            pygame.time.set_timer(TIME_EVENT, 1000)
 
             else:
                 # button is pressed
                 if event.type == BUZZEVENT:
                     if event.button != "red":
                         controller = event.controller
-                        button = button_value(event.button)
+                        # if buzzed controller
+                        if controller == self.player_buzzed:
+                            button = button_value(event.button)
+                            # check if correct answer was selected
+                            if self.current_question().check(button):
+                                self.player_points[controller] += 1
+                                self.game_state = ANSWER
+                                self.game.controller.controller_lights_on()
 
-                        # check if correct answer was selected
+                            # if wrong answer
+                            else:
+                                self.player_answered[controller] = False
+                                # if all player answered
+                                if self.all_answered():
+                                    self.game_state = ANSWER
+                                    self.game.controller.controller_lights_on()
+                                else:
+                                    self.unbuzzed_controllers_blink()
+
+                                    # disable selected answer
+                                    self.answers_available[button] = False
 
                 # a second has passed
                 elif event.type == TIME_EVENT:
@@ -78,15 +104,10 @@ class BuzzMode(GameMode):
 
                     # if counter for next event is 0
                     if self.seconds_left == 0:
-                        # show correct answers
-                        self.game_state = ANSWER
 
-                        # buttons blinking
-                        self.game.controller.controller_lights_blink()
-
-                        # give points to players
-                        index_correct_answer = self.current_question().index_correct_answer()
-
+                        # other players have chance to buzz
+                        self.buzzed = False
+                        self.player_answered[self.player_buzzed] = True
 
         # if answer is showed
         elif self.game_state == ANSWER:
@@ -110,6 +131,7 @@ class BuzzMode(GameMode):
                         # next question
                         self.next_question()
                         self.player_answered = [False, False, False, False]
+                        self.answers_available = [True, True, True, True]
                         self.game_state = QUESTION
                         self.seconds_left = self.ANSWER_TIME
 
@@ -178,20 +200,30 @@ class BuzzMode(GameMode):
             rec3 = pygame.Rect(0.1 * width, 0.65 * height, 0.8 * width, 0.15 * height)
             rec4 = pygame.Rect(0.1 * width, 0.85 * height, 0.8 * width, 0.15 * height)
 
-            pygame.draw.rect(self.screen, BLUE, rec1)
-            pygame.draw.rect(self.screen, ORANGE, rec2)
-            pygame.draw.rect(self.screen, GREEN, rec3)
-            pygame.draw.rect(self.screen, YELLOW, rec4)
-
             text1 = font.render(answers[0], True, BLACK)
             text2 = font.render(answers[1], True, BLACK)
             text3 = font.render(answers[2], True, BLACK)
             text4 = font.render(answers[3], True, BLACK)
 
-            self.screen.blit(text1, (0.5 * width - text1.get_width() // 2, 0.325 * height - text1.get_height() // 2))
-            self.screen.blit(text2, (0.5 * width - text2.get_width() // 2, 0.525 * height - text2.get_height() // 2))
-            self.screen.blit(text3, (0.5 * width - text3.get_width() // 2, 0.725 * height - text3.get_height() // 2))
-            self.screen.blit(text4, (0.5 * width - text4.get_width() // 2, 0.925 * height - text4.get_height() // 2))
+            if self.answers_available[0]:
+                pygame.draw.rect(self.screen, BLUE, rec1)
+                self.screen.blit(text1,
+                                 (0.5 * width - text1.get_width() // 2, 0.325 * height - text1.get_height() // 2))
+
+            if self.answers_available[1]:
+                pygame.draw.rect(self.screen, ORANGE, rec2)
+                self.screen.blit(text2,
+                                 (0.5 * width - text2.get_width() // 2, 0.525 * height - text2.get_height() // 2))
+
+            if self.answers_available[2]:
+                pygame.draw.rect(self.screen, GREEN, rec3)
+                self.screen.blit(text3,
+                                 (0.5 * width - text3.get_width() // 2, 0.725 * height - text3.get_height() // 2))
+
+            if self.answers_available[3]:
+                pygame.draw.rect(self.screen, YELLOW, rec4)
+                self.screen.blit(text4,
+                                 (0.5 * width - text4.get_width() // 2, 0.925 * height - text4.get_height() // 2))
 
         pygame.display.update()
 

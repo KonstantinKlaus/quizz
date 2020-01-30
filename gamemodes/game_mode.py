@@ -23,7 +23,7 @@ def sort_score(score_list: list):
 
 class GameMode:
 
-    game: Game =None
+    game: Game = None
 
     questions = []
     position = 0
