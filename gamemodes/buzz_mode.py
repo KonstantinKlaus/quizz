@@ -8,6 +8,7 @@ from gamemodes.game_mode import *
 
 class BuzzMode(GameMode):
 
+    QUESTION_TIME = 10
     ANSWER_TIME = 5
     seconds_left = ANSWER_TIME
 
@@ -71,6 +72,13 @@ class BuzzMode(GameMode):
                             self.seconds_left = self.ANSWER_TIME
                             pygame.time.set_timer(TIME_EVENT, 1000)
 
+                elif event.type == TIME_EVENT:
+                    self.seconds_left -= 1
+                    if self.seconds_left == 0:
+                        self.seconds_left = self.QUESTION_TIME
+                        self.game_state = QUESTION
+                        self.game.controller.controller_lights_on()
+
             else:
                 # button is pressed
                 if event.type == BUZZEVENT:
@@ -94,6 +102,7 @@ class BuzzMode(GameMode):
                                     self.game.controller.controller_lights_on()
                                 else:
                                     self.unbuzzed_controllers_blink()
+                                    self.seconds_left = self.QUESTION_TIME
 
                                     # disable selected answer
                                     self.answers_available[button] = False
